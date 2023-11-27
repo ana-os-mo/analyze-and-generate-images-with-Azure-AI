@@ -36,14 +36,23 @@ app.post('/api/analyzeImage', async (req, res) => {
 
 app.post('/api/generateImage', async (req, res) => {
   const promptText = req.body.promptText;
-  const response = await openai.images.generate({
-    model: "dall-e-3",
-    prompt: promptText
-  });
 
-  res.json({
-    imageUrl: response.data.image_url
-  });
+  try {
+    const response = await openai.images.generate({
+      model: "dall-e-2",
+      prompt: promptText
+    });
+
+    const imageUrl = response.data[0].url;
+
+    res.status(200).json({
+      success: true,
+      data: imageUrl
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'An error occurred' });
+  }
 });
 
 app.listen(3001, () => {

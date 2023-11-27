@@ -15,7 +15,7 @@ function App() {
 
   const handleGenerateImage = async () => {
     const response = await generateImage(promptText);
-    setGeneratedImageUrl(response.data.imageUrl);
+    setGeneratedImageUrl(response);
   };
 
   return (
@@ -40,7 +40,11 @@ function App() {
         <button className="create-button" onClick={handleGenerateImage}>Generate Image</button>
       </div>
       {description && <p>{description}</p>}
-      {generatedImageUrl && <img src={generatedImageUrl} alt="Generated" />}
+      {generatedImageUrl &&
+        <div className="image-section">
+          <img src={generatedImageUrl} alt="Generated" />
+        </div>
+      }
     </div>
   );
 }
